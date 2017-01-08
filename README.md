@@ -1,5 +1,7 @@
 # carheater_domoticz
-Carheater lua script for domoticz
+Carheater lua script for domoticz with google calendar. 
+
+Many thanks to BakSeeDaa for his work with google cal script for domoticz.
 
 INSTALLATION:
 First of all you need to install BakSeeDaa's google calender script, follow this guide: 
