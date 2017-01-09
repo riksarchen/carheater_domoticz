@@ -12,10 +12,15 @@ Before you push the 'Check Switch' for the first time to run the setupscript do 
 Replace script_device_gcal.lua with the one downloaded from this project. 
 Filepath: /home/pi/domoticz/scripts/lua/
 
-After you have done this you need to create a uservariable as integer with name = Timer<idx> of your GCal Device switch created in the earlier steps. 
-I.e. if your GCal Device switch has idx 265 you need to create the uservariable with name Timer265
+After you have done this you need to create these uservariables.
 
-After this copy carheater.lua to: /home/pi/domoticz/scripts/lua/
+Replace <idx> with the idx of your GCal Device switch created in the earlier steps.
+- Timer<idx>Run 
+- Timer<idx>NoUsageTime
+
+Both should be created as INTEGER.
+
+Now copy carheater.lua to: /home/pi/domoticz/scripts/lua/
 
 Edit .lua file:
 sudo nano /home/pi/domoticz/scripts/lua/carheater.lua
