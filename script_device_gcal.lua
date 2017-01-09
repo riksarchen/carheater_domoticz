@@ -911,6 +911,8 @@ if (iGCal ~= nil) then
 
 		if (nextEvent ~= -1) then
 			nextEventTime = os.date("%H:%M %b %d", GC.Events[index][1] + GC.timeZone) .. " to " .. os.date("%H:%M %b %d", GC.Events[index][2] + GC.timeZone)
+			b.setVar("GCal"..GC.device_idx.."NextStart", GC.Events[index][1] + GC.timeZone, 0)
+			b.setVar("GCal"..GC.device_idx.."NextStop", GC.Events[index][2] + GC.timeZone, 0)
 		end
 
 		if (eventtitle == "No more events today") then
