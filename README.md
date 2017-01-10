@@ -15,12 +15,12 @@ Filepath: /home/pi/domoticz/scripts/lua/
 After you have done this you need to create these uservariables.
 
 Replace (idx) with the idx of your GCal Device switch created in the earlier steps.
-- Timer(idx)Run 
-- Timer(idx)NoUsageTime
+-- Timer(idx)Run 
+-- Timer(idx)NoUsageTime
 
 Your uservar should look like this if your idx = 200:
-Timer200Run
-Timer200NoUsageTime
+-- Timer200Run
+-- Timer200NoUsageTime
 
 Both should be created as INTEGER.
 
@@ -31,6 +31,8 @@ sudo nano /home/pi/domoticz/scripts/lua/carheater.lua
 
 Change all parameters in the top of the .lua file to your needs. 
 Save file with Ctrl + O and exit nano with Ctrl + X.
+
+The sript should run once a minute. If you use domoticz it's easiest done if you goto Events, create a new lua script. Select Time in the dropdown menu and paste all code from carheater.lua
 
 Now add events to your google cal and the carheater should turn on so the car is warm at the specified time. 
 
