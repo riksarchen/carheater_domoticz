@@ -106,7 +106,7 @@ if (uautoPowerOff_wUsage and otherdevices[nMotorswitch] == 'On') then
 end
 
 -- carheater start
-if (debug) then
+if (udebug) then
     print(tGCalStart.." > 0 == tGCalStart")
     print(tlStart.." >= 0 == tlStart")
     print(tlStart.." < "..tLastRun.. " == tlStart < tLastRun")
