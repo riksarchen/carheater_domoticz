@@ -24,15 +24,41 @@ Timer200NoUsageTime
 
 Both should be created as INTEGER.
 
-Now copy carheater.lua to: /home/pi/domoticz/scripts/lua/
+Now there are two methods to install the carheater script. 
 
-Edit .lua file:
+#####################################################################################
+The first one is to copy the script into domoticz script directory
+To do this: 
+copy carheater.lua to /home/pi/domoticz/scripts/lua/
+make sure that the script is only trigged once a minute.
+
+Edit settings: 
 sudo nano /home/pi/domoticz/scripts/lua/carheater.lua
 
 Change all parameters in the top of the .lua file to your needs. 
 Save file with Ctrl + O and exit nano with Ctrl + X.
+#####################################################################################
 
-The sript should run once a minute. If you use domoticz it's easiest done if you goto Events, create a new lua script. Select Time in the dropdown menu and paste all code from carheater.lua
+
+#####################################################################################
+The other way which I recommend is to paste the code into domoticz script editor: 
+Goto domoticz script editor. 
+Click New
+select lua in the dropdown menu.
+select time in the dropdown menu below. 
+Remove all code
+paste all code from carheater.lua
+
+Now you need to copy bakseeda.lua to /usr/local/lib/lua/5.2/
+sudo mkdir -p /usr/local/lib/lua/5.2/
+sudo cp /home/pi/domoticz/scripts/lua/bakseeda.lua /usr/local/lib/lua/5.2/bakseeda.lua
+
+Edit settings:
+open domoticz script editor
+Change all parameters in the top of the script to your needs. 
+
+#####################################################################################
+
 
 Now add events to your google cal and the carheater should turn on so the car is warm at the specified time. 
 
