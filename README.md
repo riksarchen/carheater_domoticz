@@ -15,12 +15,12 @@ Filepath: /home/pi/domoticz/scripts/lua/
 After you have done this you need to create these uservariables.
 
 Replace (idx) with the idx of your GCal Device switch created in the earlier steps.
--- Timer(idx)Run 
--- Timer(idx)NoUsageTime
+Timer(idx)Run 
+Timer(idx)NoUsageTime 
 
 Your uservar should look like this if your idx = 200:
--- Timer200Run
--- Timer200NoUsageTime
+Timer200Run
+Timer200NoUsageTime
 
 Both should be created as INTEGER.
 
