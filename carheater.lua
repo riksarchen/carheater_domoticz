@@ -1,8 +1,8 @@
 -- USERINPUTS REQUIRED
-local nSensortemp                   = 'NAME OF YOUR TEMP SENSOR'                    -- name of your outside temperature sensor
-local nMotorswitch                  = 'NAME OF YOUR RELAY THAT CONTROLS CARHEATER'  -- name of the relayswitch
-local nUsageswitch                  = 'NAME OF YOUR SENSOR THAT SHOWS USAGE IN WATT'-- name of the usage sensor
-local device_idx                    = 'idx'                                         -- INPUT YOUR IDX of the GCal Device switch
+local nSensortemp                   = '<YOUR TEMP SENSOR>'                               -- name of your outside temperature sensor
+local nMotorswitch                  = '<YOUR RELAY>'                         -- name of the relayswitch
+local nUsageswitch                  = '<YOUR RELAYs USAGE'                     -- name of the usage sensor
+local device_idx                    = '<YOUR IDX>'                                         -- INPUT YOUR IDX of the GCal Device switch
 
 -- USERSETTINGS
 local udebug                        = false                                         -- debugging 
@@ -62,7 +62,7 @@ local sTemp                         = tonumber(otherdevices[nSensortemp])
 local carheater_runtime             = RunTime(sTemp)
 local tGCalStart                    = uservariables[vGCaltimeStart]
 local tGCalStop                     = uservariables[vGCaltimeStop]
-local tLastRun                      = uservariables[vTimerLastRun] - tNow
+local tLastRun                      = tNow - uservariables[vTimerLastRun]
 local tlStart                       = tNow - tGCalStart + carheater_runtime
 local tlStop                        = tNow - tGCalStop
 local tlNoUsageSwitch               = timedifference(otherdevices_lastupdate[nMotorswitch], tNow) - (umaxTimeNoUsage * 60)
@@ -106,6 +106,16 @@ if (uautoPowerOff_wUsage and otherdevices[nMotorswitch] == 'On') then
 end
 
 -- carheater start
+if (debug) then
+    print(tGCalStart.." > 0 == tGCalStart")
+    print(tlStart.." >= 0 == tlStart")
+    print(tlStart.." < "..tLastRun.. " == tlStart < tLastRun")
+    print("tLastRun timeformat: "..os.date("%c", tLastRun))
+    print("nMotorswitch == 'Off': "..otherdevices[nMotorswitch])
+    print(carheater_runtime.. " > 0 == carheater_runtime > 0: ")
+    print("time: "..os.time())
+end
+        
 if (tGCalStart > 0 and tlStart >= 0 and tlStart < tLastRun) then
     if (otherdevices[nMotorswitch] == 'Off') then
         if (carheater_runtime > 0) then
