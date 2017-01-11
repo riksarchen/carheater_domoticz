@@ -27,7 +27,6 @@ local ucarheaterSwitchOnNot         = false
 -- #            END OF USERSETTINGS                         #
 -- ##########################################################
 
-
 commandArray = {}
 
 -- functions
@@ -90,13 +89,13 @@ if (uautoPowerOff_noUsage) then
     end
 
     -- CHECK IF TIME WITH ZERO USAGE IS LONGER THAN ALLOWED
-    if (tonumber(otherdevices_svalues[nUsageswitch]) == 0 and tlNoUsageSwitch >= 0 and tlNoUsageSensor >= 0 and otherdevices[nMotorswitch] == 'On') then
+    if (b.getVar(vTimezerousage) > 0 and tlNoUsageSwitch >= 0 and tlNoUsageSensor >= 0 and otherdevices[nMotorswitch] == 'On') then
         msg = "Slår av " .. nMotorswitch .. ", ingen Strömförbrukning senaste " ..  umaxTimeNoUsage .. " min."
         
         print(msg)
         
         if (uautoPowerOff_noUsageSMS) then b.sendSMS(msg, smsPhonenumber) end
-        if (uautoPowerOff_noUsageNot) then commandArray['SendNotification']='Motorvärmare avslagen!#'..nMotorswitch..' har varit påslagen utan strömförbrukning i ' .. ptimeNoPower .. ' minuter. Stänger av!#0' end
+        if (uautoPowerOff_noUsageNot) then commandArray['SendNotification']='Motorvärmare avslagen!#'..nMotorswitch..' har varit påslagen utan strömförbrukning i ' .. umaxTimeNoUsage .. ' minuter. Stänger av!#0' end
         
         commandArray[nMotorswitch] = 'Off'
     end
@@ -104,7 +103,7 @@ if (uautoPowerOff_noUsage) then
     -- DEBUGGING
     if (udebug) then
         print("LAST_TIME_USAGE: "..tonumber(otherdevices_svalues[nUsageswitch]).." = 0 == usagesensor")
-        print("LAST_TIME_USAGE: "..tlNoUsageSwitch.." >= 0 == tlUsageSwitch")
+        print("LAST_TIME_USAGE: "..tlNoUsageSwitch.." >= 0 == tlNoUsageSwitch")
         print("LAST_TIME_USAGE: "..tlNoUsageSensor.." >= 0 == tlNoUsageSensor")
         print("LAST_TIME_USAGE: ".."last usage: "..os.date("%c", b.getVar(vTimezerousage)))
         print("LAST_TIME_USAGE: ".."time since usage: "..tNow - b.getVar(vTimezerousage))
@@ -139,8 +138,11 @@ end
 if (tGCalStart > 0 and tlStart >= 0 and tlStart < tLastRun) then
     if (otherdevices[nMotorswitch] == 'Off') then
         if (carheater_runtime > 0) then
+
+            -- calculate runtime
             local switchOnfor = round(tlStop / -60, 0)
-            
+            if (switchOnfor > umaxTimewUsage) then switchOnfor = umaxTimewUsage end
+                
             msg = "Startar " .. nMotorswitch .. " i " .. switchOnfor .. " minuter, utetemperatur är " .. sTemp .. " celcius."
             
             print(msg)
@@ -174,3 +176,4 @@ if (udebug) then
     print("Outside temperature: " .. sTemp .. " celcius.")
 end
 return commandArray
+
