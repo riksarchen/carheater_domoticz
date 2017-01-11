@@ -90,12 +90,12 @@ if (uautoPowerOff_noUsage) then
 
     -- CHECK IF TIME WITH ZERO USAGE IS LONGER THAN ALLOWED
     if (b.getVar(vTimezerousage) > 0 and tlNoUsageSwitch >= 0 and tlNoUsageSensor >= 0 and otherdevices[nMotorswitch] == 'On') then
-        msg = "Slår av " .. nMotorswitch .. ", ingen Strömförbrukning senaste " ..  umaxTimeNoUsage .. " min."
+        
+        msg = nMotorswitch..' har varit påslagen utan strömförbrukning i ' .. umaxTimeNoUsage .. ' minuter. Stänger av!'
         
         print(msg)
-        
         if (uautoPowerOff_noUsageSMS) then b.sendSMS(msg, smsPhonenumber) end
-        if (uautoPowerOff_noUsageNot) then commandArray['SendNotification']='Motorvärmare avslagen!#'..nMotorswitch..' har varit påslagen utan strömförbrukning i ' .. umaxTimeNoUsage .. ' minuter. Stänger av!#0' end
+        if (uautoPowerOff_noUsageNot) then commandArray['SendNotification']='Motorvärmare avslagen!#'..msg..'#0' end
         
         commandArray[nMotorswitch] = 'Off'
     end
@@ -115,12 +115,12 @@ if (uautoPowerOff_wUsage) then
     local tlUsageSwitch = timedifference(otherdevices_lastupdate[nMotorswitch], tNow) - (umaxTimewUsage * 60)
     
     if (otherdevices[nMotorswitch] == 'On' and tlUsageSwitch >= 0 and tonumber(otherdevices_svalues[nUsageswitch]) > 0) then
-        msg = "Slår av " .. nMotorswitch .. ", Max tillåten körtid är " ..  umaxTimewUsage .. " min."
+        msg = nMotorswitch..' har gått i '..round((timedifference(otherdevices_lastupdate[nMotorswitch], tNow) / 60), 0)..' minuter vilket är längre än tillåten gångtid. Stänger av!'
         
         print(msg)
         
         if (uautoPowerOff_wUsageSMS) then b.sendSMS(msg, smsPhonenumber) end
-        if (uautoPowerOff_wUsageNot) then commandArray['SendNotification']='Motorvärmare avslagen!#'..nMotorswitch..' har gått i '..round((timedifference(otherdevices_lastupdate[nMotorswitch], tNow) / 60), 0)..' minuter vilket är längre än tillåten gångtid. Stänger av!#0' end
+        if (uautoPowerOff_wUsageNot) then commandArray['SendNotification']='Motorvärmare avstängd!#'..msg..'#0' end
         
         commandArray[nMotorswitch] = 'Off'
     end
@@ -143,12 +143,12 @@ if (tGCalStart > 0 and tlStart >= 0 and tlStart < tLastRun) then
             local switchOnfor = round(tlStop / -60, 0)
             if (switchOnfor > umaxTimewUsage) then switchOnfor = umaxTimewUsage end
                 
-            msg = "Startar " .. nMotorswitch .. " i " .. switchOnfor .. " minuter, utetemperatur är " .. sTemp .. " celcius."
+            msg = nMotorswitch..' startades kl. '..os.date("%X", tNow)..', utetemperatur är '..sTemp..' celcius. Den kommer stängas av kl. '..os.date("%X", (switchOnfor * 60) + tNow)
             
             print(msg)
             
             if (ucarheaterSwitchOnSMS) then b.sendSMS(msg, smsPhonenumber) end
-            if (ucarheaterSwitchOnNot) then commandArray['SendNotification']='Motorvärmare påslagen!#'..nMotorswitch..' startades kl. '..os.date("%X", tNow)..', utetemperatur är '..sTemp..' celcius. Den kommer stängas av kl. '..os.date("%X", (switchOnfor * 60) + tNow)..'#0' end
+            if (ucarheaterSwitchOnNot) then commandArray['SendNotification']='Motorvärmare påslagen!#'..msg..'#0' end
             
             commandArray[nMotorswitch] = 'On FOR ' .. switchOnfor
         else
@@ -176,4 +176,3 @@ if (udebug) then
     print("Outside temperature: " .. sTemp .. " celcius.")
 end
 return commandArray
-
