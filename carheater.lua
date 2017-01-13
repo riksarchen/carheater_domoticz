@@ -1,11 +1,11 @@
 local b = require("bakseeda")
 
 -- USERINPUTS REQUIRED
-local nSensortemp                   = '<sensor temp name>'                               -- name of your outside temperature sensor
-local nMotorswitch                  = 'switching relay name'                         -- name of the relayswitch
-local nUsageswitch                  = 'switchning relay usage (W)'                     -- name of the usage sensor
-local device_idx                    = '<your gcal device idx>'                                         -- INPUT YOUR IDX of the GCal Device switch
-local smsPhonenumber                = '<your phonenumber>'                               -- SMS-number for notifications, clickatell required - for setup see below parameters
+local nSensortemp                   = '<outside temp>'                          -- name of your outside temperature sensor
+local nMotorswitch                  = '<your motor relay switch>'                         -- name of the relayswitch
+local nUsageswitch                  = '<your usage switch>'                     -- name of the usage sensor
+local device_idx                    = '<idx of your cal>'                                         -- INPUT YOUR IDX of the GCal Device switch
+local smsPhonenumber                = '<your smsnumber>'                               -- SMS-number for notifications, clickatell required - for setup see below parameters
 
 -- USERSETTINGS
 local udebug                        = false                                         -- debugging 
@@ -16,16 +16,17 @@ local uautoPowerOff_noUsage         = true                                      
 local umaxTimeNoUsage               = 10                                            -- minutes with no usage before the relay is shutoff
 local uautoPowerOff_wUsage          = true                                          -- enable/disable automatic shutoff after x minutes (both timer and manual start)
 local umaxTimewUsage                = 300                                           -- shutoff relay after x minutes with usage > 0 Watt. Cannot be less than umaxTimeLogic 
-local uautoPowerOff_wUsageSMS       = false                                         -- enable sms notifications. Input your clickatell details in uservariables: ClickatellSender, ClickatellAPIId, ClickatellAPIPassw, ClickatellAPIUser
+local uautoPowerOff_wUsageSMS       = true                                         -- enable sms notifications. Input your clickatell details in uservariables: ClickatellSender, ClickatellAPIId, ClickatellAPIPassw, ClickatellAPIUser
 local uautoPowerOff_noUsageSMS      = false
-local ucarheaterSwitchOnSMS         = false
-local uautoPowerOff_wUsageNot       = false                                          -- enable notifcations. You need to have at least one notifcation service activated under settings.
-local uautoPowerOff_noUsageNot      = false
+local ucarheaterSwitchOnSMS         = true
+local uautoPowerOff_wUsageNot       = true                                          -- enable notifcations. You need to have at least one notifcation service activated under settings.
+local uautoPowerOff_noUsageNot      = true
 local ucarheaterSwitchOnNot         = false
 
 -- ##########################################################
 -- #            END OF USERSETTINGS                         #
 -- ##########################################################
+
 
 commandArray = {}
 
