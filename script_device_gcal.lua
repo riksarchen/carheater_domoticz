@@ -1,6 +1,6 @@
 -----------------------------------------------------------------------------
 --	script_device_gcal.lua: A Google Calendar script aimed for Domoticz
---	Author: BakSeeDa (บักสีดา)
+--	Author: BakSeeDa (à¸šà¸±à¸à¸ªà¸µà¸”à¸²)
 --	Homepage: https://www.domoticz.com/forum/memberlist.php?mode=viewprofile&u=7064
 --
 --	CREDITS:
@@ -119,8 +119,8 @@ if (iGCal ~= nil) then
 
 	local function upperCase(str)
 		str = string.upper(str)
-		local minusChars={"à","á","â","ã","ä","å","æ","ç","è","é","ê","ë","ì","í","î","ï","ð","ñ","ò","ó","ô","õ","ö","÷","ø","ù","ú","û","ü","ý","þ","ÿ"}
-		local majusChars={"À","Á","Â","Ã","Ä","Å","Æ","Ç","È","É","Ê","Ë","Ì","Í","Î","Ï","Ð","Ñ","Ò","Ó","Ô","Õ","Ö","÷","Ø","Ù","Ú","Û","Ü","Ý","Þ","ß"}
+		local minusChars={"Ã ","Ã¡","Ã¢","Ã£","Ã¤","Ã¥","Ã¦","Ã§","Ã¨","Ã©","Ãª","Ã«","Ã¬","Ã­","Ã®","Ã¯","Ã°","Ã±","Ã²","Ã³","Ã´","Ãµ","Ã¶","Ã·","Ã¸","Ã¹","Ãº","Ã»","Ã¼","Ã½","Ã¾","Ã¿"}
+		local majusChars={"Ã€","Ã","Ã‚","Ãƒ","Ã„","Ã…","Ã†","Ã‡","Ãˆ","Ã‰","ÃŠ","Ã‹","ÃŒ","Ã","ÃŽ","Ã","Ã","Ã‘","Ã’","Ã“","Ã”","Ã•","Ã–","Ã·","Ã˜","Ã™","Ãš","Ã›","Ãœ","Ã","Ãž","ÃŸ"}
 		for i = 1, #minusChars, 1 do
 			str = string.gsub(str, minusChars[i], majusChars[i])
 		end
@@ -911,12 +911,14 @@ if (iGCal ~= nil) then
 
 		if (nextEvent ~= -1) then
 			nextEventTime = os.date("%H:%M %b %d", GC.Events[index][1] + GC.timeZone) .. " to " .. os.date("%H:%M %b %d", GC.Events[index][2] + GC.timeZone)
-			b.setVar("GCal"..GC.device_idx.."NextStart", GC.Events[index][1] + GC.timeZone, 0)
-			b.setVar("GCal"..GC.device_idx.."NextStop", GC.Events[index][2] + GC.timeZone, 0)
+		        b.setVar("GCal"..GC.device_idx.."NextStart", GC.Events[index][1] + GC.timeZone, 0)
+                        b.setVar("GCal"..GC.device_idx.."NextStop", GC.Events[index][2] + GC.timeZone, 0)
 		end
 
 		if (eventtitle == "No more events today") then
 			b.setVar("GCal"..GC.device_idx.."NextEvent", format1 .. string.sub(eventtitle,1,40) .. format2, 2)
+			b.setVar("GCal"..GC.device_idx.."NextStart", 0, 0)
+	                b.setVar("GCal"..GC.device_idx.."NextStop", 0, 0)
 		else
 			b.setVar("GCal"..GC.device_idx.."NextEvent", format1 .. string.sub(eventtitle,1,40) .. '<BR/><span style="font-weight: normal;">' .. nextEventTime .. "</span>" .. format2, 2)
 		end
