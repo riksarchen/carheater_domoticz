@@ -136,7 +136,7 @@ if (udebug) then
     print("CARHEATER_START: "..carheater_runtime.. " > 0 == carheater_runtime > 0: ")
 end
      
-if (tGCalStart > 0 and tlStart >= 0 and tlStart < tLastRun) then
+if (tGCalStart > 0 and tlStart >= 0 and tlStop < 0 and tlStart < tLastRun) then
     if (otherdevices[nMotorswitch] == 'Off') then
         if (carheater_runtime > 0) then
 
