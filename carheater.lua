@@ -150,15 +150,12 @@ if (tGCalStart > 0 and tlStart >= 0 and tlStop < 0 and tlStart < tLastRun) then
             
             if (ucarheaterSwitchOnSMS) then b.sendSMS(msg, smsPhonenumber) end
             if (ucarheaterSwitchOnNot) then commandArray['SendNotification']='Motorvärmare påslagen!#'..msg..'#0' end
-            
+            b.setVar(vTimerLastRun, tNow, 0)
             commandArray[nMotorswitch] = 'On FOR ' .. switchOnfor
         else
             print("Startar inte " .. nMotorswitch .. ", utetemperatur är " .. sTemp .. " celcius.")
         end
-    else
-        print(nMotorswitch .. " är redan på. Manuell avstängning krävs. Utetemperatur är " .. sTemp .. " celcius.")
     end
-    b.setVar(vTimerLastRun, tNow, 0)
 end
 
 -- debugging
