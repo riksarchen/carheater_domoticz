@@ -59,6 +59,11 @@ Change all parameters in the top of the script to your needs.
 
 #####################################################################################
 
+If you don't have an outside temperature sensor you can use Weather underground. You need to separate temperature from WU's multisensor. To do this use ExtractTempWU.lua. 
+
+Remember to edit the settings in that file. 
+
+#####################################################################################
 
 Now add events to your google cal and the carheater should turn on so the car is warm at the specified time. 
 
