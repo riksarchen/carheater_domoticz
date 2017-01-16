@@ -72,7 +72,7 @@ local sTemp                         = tonumber(otherdevices[nSensortemp])
 local carheater_runtime             = RunTime(sTemp)
 local tGCalStart                    = b.getVar(vGCaltimeStart)
 local tGCalStop                     = b.getVar(vGCaltimeStop)
-local tLastRun                      = tNow - b.getVar(vTimerLastRun)
+local tLastRun                      = b.getVar(vTimerLastRun)
 local tlStart                       = tNow - tGCalStart + carheater_runtime
 local tlStop                        = tNow - tGCalStop
 
@@ -131,12 +131,12 @@ end
 if (udebug) then
     print("CARHEATER_START: "..tGCalStart.." > 0 == tGCalStart")
     print("CARHEATER_START: "..tlStart.." >= 0 == tlStart")
-    print("CARHEATER_START: "..tlStart.." < "..tLastRun.. " == tlStart < tLastRun")
+    print("CARHEATER_START: "..tGCalStart.." ~= "..tLastRun.. " == tGCalStart ~= tLastRun")
     print("CARHEATER_START: ".."nMotorswitch == 'Off': "..otherdevices[nMotorswitch])
     print("CARHEATER_START: "..carheater_runtime.. " > 0 == carheater_runtime > 0: ")
 end
      
-if (tGCalStart > 0 and tlStart >= 0 and tlStop < 0 and tlStart < tLastRun) then
+if (tGCalStart > 0 and tlStart >= 0 and tlStop < 0 and tGCalStart ~= tLastRun) then
     if (otherdevices[nMotorswitch] == 'Off') then
         if (carheater_runtime > 0) then
 
@@ -150,12 +150,16 @@ if (tGCalStart > 0 and tlStart >= 0 and tlStop < 0 and tlStart < tLastRun) then
             
             if (ucarheaterSwitchOnSMS) then b.sendSMS(msg, smsPhonenumber) end
             if (ucarheaterSwitchOnNot) then commandArray['SendNotification']='Motorvärmare påslagen!#'..msg..'#0' end
-            b.setVar(vTimerLastRun, tNow, 0)
             commandArray[nMotorswitch] = 'On FOR ' .. switchOnfor
         else
             print("Startar inte " .. nMotorswitch .. ", utetemperatur är " .. sTemp .. " celcius.")
         end
+    else
+        msg = nMotorswitch..' är redan påslagen, hoppar över motorvärmarstart.'
+        print(msg)
     end
+
+    b.setVar(vTimerLastRun, tGCalStart, 0)
 end
 
 -- debugging
